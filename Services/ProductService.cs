@@ -22,13 +22,14 @@ namespace ProductShop.Service
         public Product Get(int id)
         {
             return Db.Products
-                .FirstOrDefault(p => p.Guid == id);
+                .FirstOrDefault(p=>p.Guid==id);
         }
 
         public void Add(Product product)
         {
-            CheckAddFails(product);
-            Db.Products.Add(product);
+            Product product1 = CheckAddFails(product);
+            if (product1==null) return;
+            Db.Products.Add(product1);
             Db.SaveChanges();
         }
 
@@ -40,11 +41,16 @@ namespace ProductShop.Service
             Db.SaveChanges();
         }
 
-        private void CheckAddFails(Product product)
+        private Product CheckAddFails(Product product)
         {
-            if (product.Name == null) return;
-            else if (product.Price < 0) return;
-            else product.Offset = DateTime.Now;
+            Product product1 = product;
+            if (product1.Name == null) return null;
+            else if (product1.Price < 0) return null;
+            else
+            {
+                product1.Offset = DateTime.Now;
+                return product1;
+            }
         }
     }
 }

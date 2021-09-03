@@ -21,20 +21,20 @@ namespace ProductShop.Controllers
             return Ok(Service.GetAll());
         }
 
-        [HttpGet("[id]")]
+        [HttpGet("{id}")]
         public ActionResult<Product> Get(int id)
-        {
+        {            
             return Ok(Service.Get(id));
         }
 
         [HttpPost]
         public IActionResult Create(Product product)
         {
-            Service.Add(product);
+            Service.Add(product); //OnException (override)
             return CreatedAtAction(nameof(Create), product);
         }
 
-        [HttpDelete("[id]")]
+        [HttpDelete("id")]
         public IActionResult Delete(int id)
         {
             Service.Delete(id);

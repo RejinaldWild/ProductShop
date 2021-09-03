@@ -10,14 +10,12 @@ namespace ProductShop.Models
         {
             var folder = Environment.SpecialFolder.LocalApplicationData;
             var path = Environment.GetFolderPath(folder);
-            DbPath = $"{path}{System.IO.Path.DirectorySeparatorChar}ProductDb.db";
-
-
+            DbPath = $"{path}{System.IO.Path.DirectorySeparatorChar}ProductShop.db";
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=productshopdb;Trusted_Connection=True;");
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=productshopdb;Trusted_Connection=True;");
+        //}
 
         public DbSet<Product> Products { get; set; }
     }
