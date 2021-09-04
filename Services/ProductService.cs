@@ -45,7 +45,7 @@ namespace ProductShop.Service
         {
             Product product1 = product;
             if (product1.Name == null) return null;
-            else if (product1.Price < 0) return null;
+            else if (product1.Price < 0.0m) return null;
             else
             {
                 product1.Offset = DateTime.Now;

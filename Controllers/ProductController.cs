@@ -2,6 +2,7 @@
 using ProductShop.Models;
 using ProductShop.Service;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace ProductShop.Controllers
 {
@@ -23,22 +24,43 @@ namespace ProductShop.Controllers
 
         [HttpGet("{id}")]
         public ActionResult<Product> Get(int id)
-        {            
-            return Ok(Service.Get(id));
+        {
+            try
+            {                
+                return Ok(Service.Get(id));
+            }
+            catch(NullReferenceException)
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPost]
         public IActionResult Create(Product product)
         {
-            Service.Add(product); //OnException (override)
-            return CreatedAtAction(nameof(Create), product);
+            try
+            {
+                Service.Add(product);
+                return CreatedAtAction(nameof(Create), product);
+            }
+            catch(NullReferenceException)
+            {
+                return BadRequest();
+            }
         }
 
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            Service.Delete(id);
-            return Ok();
+            try
+            {
+                Service.Delete(id);
+                return Ok();
+            }
+            catch (NullReferenceException)
+            {
+                return BadRequest();
+            }
         }
     }
 }
