@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ProductShop.Infrastructure;
 
 namespace ProductShop
 {
@@ -29,10 +30,11 @@ namespace ProductShop
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            //services.AddControllersWithViews();
             services.AddDbContext<ProductShopDbContext>
                 (options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddScoped<ProductService>();
+            services.AddScoped<CustomMiddleware>();
             services.AddControllers();
             //services.AddSwaggerGen(c =>
             //{
@@ -50,16 +52,14 @@ namespace ProductShop
             //    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ProductShop v1"));
             //}
 
-            app.UseHttpsRedirection();
-
+            
             app.UseRouting();
-
-            app.UseAuthorization();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+            app.UseMiddleware<CustomMiddleware>();
         }
     }
 }
